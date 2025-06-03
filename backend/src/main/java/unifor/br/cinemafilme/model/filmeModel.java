@@ -10,9 +10,11 @@ public class filmeModel {
     private float duracao;
     private String diretor;
     private String classificacao;
+    private String status;
     @Id
     private String id; 
 
+    
     public String getId() {
         return id;
     }
@@ -71,6 +73,14 @@ public class filmeModel {
                 ", duracao=" + duracao +
                 ", genero='" + genero + '\'' +
                 '}';
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
 

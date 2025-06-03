@@ -14,5 +14,6 @@ public interface filmeRepository extends MongoRepository<filmeModel, String>{
     List<filmeModel> findByGenero(String genero);
     List<filmeModel> findByClassificacao(String classificacao);
     List<filmeModel> findByTituloContaining(String titulo);
+    List<filmeModel> findByStatusIgnoreCase(String string);
 
 } 

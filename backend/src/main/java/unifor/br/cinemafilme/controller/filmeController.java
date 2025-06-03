@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import unifor.br.cinemafilme.dto.filmeRequestDTO;
 import unifor.br.cinemafilme.model.filmeModel;
 import unifor.br.cinemafilme.service.filmeService;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/filmes")
@@ -32,7 +34,22 @@ public class filmeController {
         filme.setDiretor(dto.getDiretor());
         filme.setDuracao(dto.getDuracao());
         filme.setGenero(dto.getGenero());
+        filme.setStatus(dto.getStatus());
         return filme;
+    }
+    
+
+    @GetMapping("/disponivel")
+    public ResponseEntity<?> listarDisponíveis() {
+        try{
+            List<filmeModel> filmes = service.listarDisponiveis();
+            if(filmes.isEmpty()){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(filmes, HttpStatus.OK);
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao listar os filmes.");
+        }
     }
     
 
@@ -68,12 +85,17 @@ public class filmeController {
     @GetMapping("/listar/id/{id}")
     public ResponseEntity<?> buscarPorId(@PathVariable String id){
         try{
-            Optional<filmeModel> filme = service.buscarPorId(id);
-            return new ResponseEntity<>(filme, HttpStatus.OK);
+            Optional<filmeModel> filmeOptional = service.buscarPorId(id);
+            if (filmeOptional.isPresent()) {
+                return new ResponseEntity<>(filmeOptional.get(), HttpStatus.OK); // Retorna o filmeModel em si
+            } else {
+                return new ResponseEntity<>("Filme com ID " + id + " não encontrado.", HttpStatus.NOT_FOUND);
+            }
         }catch (Exception e){
+            // Logar a exceção aqui pode ser útil: e.printStackTrace();
             return ResponseEntity.status(
-                HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao buscar o filme.");
-         }
+                    HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao buscar o filme por ID.");
+           }
     }
     
 

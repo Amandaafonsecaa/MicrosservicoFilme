@@ -17,6 +17,11 @@ public class filmeRequestDTO {
     @NotBlank(message = "Classificação é obrigatória")
     private String classificacao;
 
+    @NotBlank(message = "Status é obrigatória")
+    private String status;
+
+
+    
 
     public String getClassificacao() {
         return classificacao;
@@ -56,6 +61,14 @@ public class filmeRequestDTO {
 
     public void setGenero(String genero) {
         this.genero = genero;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
 

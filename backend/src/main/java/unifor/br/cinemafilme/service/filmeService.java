@@ -14,6 +14,10 @@ public class filmeService {
     @Autowired
     private filmeRepository repository;
 
+    public List<filmeModel> listarDisponiveis(){
+        return repository.findByStatusIgnoreCase("disponível");
+    }
+
     public filmeModel salvarFilme(filmeModel filme){
         return repository.save(filme);
     }
